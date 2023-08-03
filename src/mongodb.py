@@ -41,7 +41,7 @@ class MongoIMS():
         insert_data(self.collection[category], category, dict_data)
 
     def update_collection_data(self, category, current_quantity, amount_to_remove, data):
-        new_quantity = max(0, current_quantity - amount_to_remove)
+        new_quantity = max(0, current_quantity + amount_to_remove)
         update_data_quantity(self.collection[category], category, new_quantity, data)
 
     def get_cilis(self):
