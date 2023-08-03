@@ -1,11 +1,3 @@
-Make sure to have started the SQL server.
+# Inventory Management System
 
-```
-sudo servie mysql start
-```
-
-To run create the database run the following command in the command line.  
-
-```
-mysql -u root -p < mysql_database.sql
-```
+A web application that connects to MongoDB Database to allow technicians track their inventory within their Data Centers.
