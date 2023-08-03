@@ -1,0 +1,6 @@
+.streamlit/
+archives/
+config/
+databases/
+tutorials/
+src/__pycache__/
