@@ -44,20 +44,35 @@ if __name__=='__main__':
         if option == 'Fiber':
             cordage, type_, con_1, con_2, length, qty = utils.get_fiber_details()
             if st.button('Update Inventory'):
-                db.insert_collection_data('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
-                st.success('Table Update!')
+                curr, qty, data = db.check_inventory('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
+                if curr:
+                    db.update_collection_data('fiber', curr, qty, data)
+                    st.success('Table Update!')
+                else:
+                    db.insert_collection_data('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
+                    st.success('Table Update!')
         
         if option == 'Optic':
             make, broadband, wavelength, range_, fiber_type, part_number, qty = utils.get_optic_details()
             if st.button('Update Inventory'):
-                db.insert_collection_data('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
-                st.success('Table Update!')
+                curr, qty, data = db.check_inventory('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
+                if curr:
+                    db.update_collection_data('optic', curr, qty, data)
+                    st.success('Table Update!')
+                else:
+                    db.insert_collection_data('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
+                    st.success('Table Update!')
 
         if option == 'Misc':
             brand, item, qty = utils.get_misc_details()
             if st.button('Update Inventory'):
-                db.insert_collection_data('misc', brand, item, int(qty), cili)
-                st.success('Table Update!')
+                curr, qty, data = db.check_inventory('misc', brand, item, int(qty), cili)
+                if curr:
+                    db.update_collection_data('misc', curr, qty, data)
+                    st.success('Table Update!')
+                else:
+                    db.insert_collection_data('misc', brand, item, int(qty), cili)
+                    st.success('Table Update!')
 
     if radio_option=='Remove Items':
         st.subheader('Remove Items')
@@ -70,7 +85,7 @@ if __name__=='__main__':
             if st.button('Update Inventory'):
                 curr, qty, data = db.check_inventory('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
                 if curr:
-                    db.update_collection_data('fiber', curr, qty, data)
+                    db.update_collection_data('fiber', curr, -qty, data)
                     st.success('Table Update!')
                 else:
                     st.write('Item does not exist.')
@@ -80,7 +95,7 @@ if __name__=='__main__':
             if st.button('Update Inventory'):
                 curr, qty, data = db.check_inventory('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
                 if curr:
-                    db.update_collection_data('optic', curr, qty, data)
+                    db.update_collection_data('optic', curr, -qty, data)
                     st.success('Table Update!')
                 else:
                     st.write('Item does not exist.')
@@ -90,7 +105,7 @@ if __name__=='__main__':
             if st.button('Update Inventory'):
                 curr, qty, data = db.check_inventory('misc', brand, item, int(qty), cili)
                 if curr:
-                    db.update_collection_data('misc', curr, qty, data)
+                    db.update_collection_data('misc', curr, -qty, data)
                     st.success('Table Update!')
                 else:
                     st.write('Item does not exist.')
