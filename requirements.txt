@@ -16,6 +16,7 @@ click==8.1.6
 cryptography==41.0.3
 dataclasses-json==0.5.14
 Deprecated==1.2.14
+dnspython==2.4.2
 et-xmlfile==1.1.0
 exceptiongroup==1.1.2
 faiss-cpu==1.7.4
@@ -63,6 +64,7 @@ pycparser==2.21
 pydantic==1.10.12
 pydeck==0.8.0
 Pygments==2.16.1
+pymongo==4.5.0
 Pympler==1.0.1
 pypandoc==1.11
 pypdf==3.15.0
