@@ -7,7 +7,7 @@ def init_connection(uri):
     return pymongo.MongoClient(uri)
 
 @st.cache_resource
-def load_collections(_client):
+def load_inventory_collections(_client):
     db = _client.inventory_db
     collections = {
             'site' : db.sites,
@@ -21,7 +21,7 @@ class MongoIMS():
     def __init__(self, credentials):
         self.uri = f"mongodb+srv://{credentials.user}:{credentials.password}@inventory.wjwchhk.mongodb.net/?retryWrites=true&w=majority"
         self.client = init_connection(self.uri)
-        self.collection = load_collections(self.client)
+        self.collection = load_inventory_collections(self.client)
         self.collection['site'].create_index([('cili', pymongo.ASCENDING)], unique=True)
 
     def check_inventory(self, category, *args):

@@ -148,6 +148,88 @@ def get_misc_details():
     qty = st.text_input('Enter quantity: ')
     return brand, item, qty
 
+def get_infra_details():
+    aisle = st.text_input('Enter PANEL/OSX Aisle: ').upper()
+    bay = st.text_input('Enter Bay(s): ', placeholder='Seperate them by commas')
+    bay = bay.split(',')
+    # pnl_osx = st.text_input
+    return aisle, bay
+
+def add_item_by_option(database, option, cili):
+    if option == 'Fiber':
+        cordage, type_, con_1, con_2, length, qty = get_fiber_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
+            if curr:
+                database.update_collection_data('fiber', curr, qty, data)
+                st.success('Table Update!')
+            else:
+                database.insert_collection_data('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
+                st.success('Table Update!')
+    
+    if option == 'Optic':
+        make, broadband, wavelength, range_, fiber_type, part_number, qty = get_optic_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
+            if curr:
+                database.update_collection_data('optic', curr, qty, data)
+                st.success('Table Update!')
+            else:
+                database.insert_collection_data('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
+                st.success('Table Update!')
+
+    if option == 'Misc':
+        brand, item, qty = get_misc_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('misc', brand, item, int(qty), cili)
+            if curr:
+                database.update_collection_data('misc', curr, qty, data)
+                st.success('Table Update!')
+            else:
+                database.insert_collection_data('misc', brand, item, int(qty), cili)
+                st.success('Table Update!')
+
+def remove_item_by_option(database, option, cili):
+    if option == 'Fiber':
+        cordage, type_, con_1, con_2, length, qty = get_fiber_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('fiber', cordage, type_, con_1, con_2, length, int(qty), cili)
+            if curr:
+                database.update_collection_data('fiber', curr, -qty, data)
+                st.success('Table Update!')
+            else:
+                st.write('Item does not exist.')
+    
+    if option == 'Optic':
+        make, broadband, wavelength, range_, fiber_type, part_number, qty = get_optic_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('optic', make, broadband, wavelength, range_, fiber_type, part_number, int(qty), cili)
+            if curr:
+                database.update_collection_data('optic', curr, -qty, data)
+                st.success('Table Update!')
+            else:
+                st.write('Item does not exist.')
+
+    if option == 'Misc':
+        brand, item, qty = get_misc_details()
+        if st.button('Update Inventory'):
+            curr, qty, data = database.check_inventory('misc', brand, item, int(qty), cili)
+            if curr:
+                database.update_collection_data('misc', curr, -qty, data)
+                st.success('Table Update!')
+            else:
+                st.write('Item does not exist.')
+
+def extract_and_insert_site_details(database):
+    cili, address, city, state, country, zip_code, site_id = get_site_details()
+
+    if st.button('Add'):
+        if not database.check_site(cili):
+            database.insert_collection_data('site', cili, address, city, state, country, zip_code, site_id)
+            st.success('Table Update!')
+        else:
+            st.write('Site already exists.')
+
 if __name__ == '__main__':
     dict_site = generate_dict_item('site', 'toroonxn', '151 front', 'toronto', 'ontario' , 'canada', 'm3n 2x8', 'i657h')
     dict_fiber = generate_dict_item('fiber', 'simplex', 'smf', 'lc', 'sc' , '10m', 5, 'toroonxn')
